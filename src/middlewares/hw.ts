@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 export const hello = (req: Request, res: Response) => {
-    res.send("hello");
+    res.json({ message: "hello" });
 };
 
 export const world = (req: Request, res: Response) => {
