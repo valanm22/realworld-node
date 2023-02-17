@@ -1,10 +1,7 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@src/*": ["src/*"],
-            "@tests/*": ["tests/*"]
-        },
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "outDir": "dist",
         "target": "ESNext",
         "module": "CommonJS",
@@ -13,6 +10,5 @@
         "removeComments": true,
         "strict": true,
     },
-    "include": ["src/**/*.ts", "tests/**/*.ts"],
     "exclude": ["node_modules"]
 }
