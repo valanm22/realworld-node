@@ -1,4 +1,4 @@
-import db from "../app/db";
+import db from "../app/global/db";
 
 beforeAll(async () => {
     return db.initialize();

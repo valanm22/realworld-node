@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import users from "./middlewares/users";
+import users from "../middlewares/users";
 
 const router = Router();
 

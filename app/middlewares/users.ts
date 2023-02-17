@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
-import db from "../db";
+import db from "../global/db";
 
 export default {
     register: async (req: Request, res: Response) => {

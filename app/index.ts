@@ -1,9 +1,5 @@
-import dotenv from "dotenv";
-
-dotenv.config();
-
-import app from "./app";
-import db from "./db";
+import app from "./global/app";
+import db from "./global/db";
 
 db.initialize()
     .then(() => {
