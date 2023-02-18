@@ -33,9 +33,8 @@ describe("users", () => {
 
         expect(response.status).toBe(422);
         expect(response.body).toEqual({
-            errors: {
-                body: ["email must be unique"]
-            }
+            error: "Validation Error",
+            message: "Email must be unique"
         });
     });
 });
