@@ -30,7 +30,7 @@ export const development: PostgresConnectionOptions  = {
 };
 
 /**
- * APP_ENV="production"
+ * NODE_ENV="production"
  * 
  * Used when running the REST API in a production server
  */
@@ -45,7 +45,7 @@ export const production: PostgresConnectionOptions = {
 };
 
 /**
- * APP_ENV="test" 
+ * NODE_ENV="test" 
  * 
  * Used when running tests. An in-memory SQLite database is used
  */
