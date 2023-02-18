@@ -13,13 +13,16 @@
   },
   "keywords": [
     "nodejs",
+    "typescript",
     "express",
     "backend",
     "rest-api",
     "postgresql",
-    "realworld"
+    "realworld",
+    "typeorm",
+    "jest",
+    "supertest"
   ],
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/willpinha/realworld-node/issues"
