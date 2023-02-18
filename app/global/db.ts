@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { development, production, test } from "../config/db";
 import env from "./env";
