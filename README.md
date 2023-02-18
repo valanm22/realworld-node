@@ -14,3 +14,15 @@
 |`TypeORM`|ORM that facilitates the acess and synchronization of schemas of databases|
 |`Jest`|One of the most relevant testing frameworks for Node.js|
 |`Supertest`|Library used together with Jest to test HTTP servers|
+
+## Project structure
+
+```
+.
+├── app             (REST API source code with entry point at index.ts)
+│   ├── config      (Configuration for things like database connections and environment variables)
+│   ├── global      (Types and objects that are globally accessed by other modules)
+│   ├── middlewares (Express middlewares that can be used in routes.ts)
+│   └── models      (TypeORM entities for the database)
+├── tests           (Integration tests for REST API using Jest and Supertest)
+```
