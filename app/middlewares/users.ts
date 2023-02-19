@@ -1,17 +1,30 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/User";
 import db from "../global/db";
-import { ValidationError } from "../global/errors";
+import { ValidationError, BadRequestError } from "../global/errors";
+import { object, string } from "yup";
 
 export default {
     register: async (req: Request, res: Response, next: NextFunction) => {
+        const bodyFormat = object({
+            user: object({
+                username: string().required(),
+                email: string().email().required(),
+                password: string().required()
+            })
+        });
+
+        if (!await bodyFormat.isValid(req.body)) {
+            return next(new BadRequestError());
+        }
+        
         const { username, email, password } = req.body.user;
 
         const userRepository = db.getRepository(User);
 
-        const findedUser = await userRepository.findOneBy({ email });
+        const searchedUser = await userRepository.findOneBy({ email });
 
-        if (findedUser) {
+        if (searchedUser) {
             return next(new ValidationError("Email must be unique"));
         }
 

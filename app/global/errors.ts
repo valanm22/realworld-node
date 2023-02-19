@@ -54,3 +54,11 @@ export class InternalServerError extends MiddlewareError {
 
     public message: string = "An internal server error occurred";
 }
+
+export class BadRequestError extends MiddlewareError {
+    protected status: number = 400;
+
+    public name: string = "Bad Request Error";
+
+    public message: string = "The request was malformed or invalid";
+}
