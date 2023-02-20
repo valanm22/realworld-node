@@ -3,6 +3,7 @@ import { User } from "../models/User";
 import db from "../global/db";
 import { ValidationError, BadRequestError } from "../global/errors";
 import { object, string } from "yup";
+import bcrypt from "bcrypt";
 
 export default {
     register: async (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +32,7 @@ export default {
         const user = new User();
         user.username = username;
         user.email = email;
-        user.password = password;
+        user.password = await bcrypt.hash(password, 10);
 
         await userRepository.save(user);
 
