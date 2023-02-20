@@ -10,4 +10,5 @@ export const specs = {
     PG_NAME: str({ devDefault: testOnly("not required") }),
 
     SERVER_PORT: port({ devDefault: 3000 }),
+    JWT_SECRET: str(),
 };

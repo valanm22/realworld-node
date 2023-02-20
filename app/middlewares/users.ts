@@ -1,24 +1,17 @@
 import { Request, Response, NextFunction } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 import db from "../global/db";
-import { ValidationError, BadRequestError } from "../global/errors";
-import { object, string } from "yup";
-import bcrypt from "bcrypt";
+import env from "../global/env";
+import { ValidationError } from "../global/errors";
 
 export default {
-    register: async (req: Request, res: Response, next: NextFunction) => {
-        const bodyFormat = object({
-            user: object({
-                username: string().required(),
-                email: string().email().required(),
-                password: string().required()
-            })
-        });
-
-        if (!await bodyFormat.isValid(req.body)) {
-            return next(new BadRequestError());
-        }
-        
+    register: async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
         const { username, email, password } = req.body.user;
 
         const userRepository = db.getRepository(User);
@@ -41,10 +34,10 @@ export default {
             user: {
                 username,
                 email,
-                token: "not implemented",
+                token: jwt.sign({ id: user.id }, env.JWT_SECRET),
                 bio: null,
                 image: null
             }
         });
-    },
+    }
 };
