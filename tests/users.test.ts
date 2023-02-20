@@ -25,9 +25,9 @@ describe("users", () => {
     it("should not register a new user with an existing email", async () => {
         const response = await api.post("/api/users").send({
             user: {
-                username: "",
+                username: "Jacob",
                 email: "jake@jake.jake",
-                password: ""
+                password: "jakejake"
             }
         });
 
