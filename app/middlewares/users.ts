@@ -29,12 +29,44 @@ export default {
 
         await userRepository.save(user);
 
-        res.status(201);
-        res.send({
+        res.status(201).send({
             user: {
                 username,
                 email,
                 token: jwt.sign({ id: user.id }, env.JWT_SECRET),
+                bio: null,
+                image: null
+            }
+        });
+    },
+
+    login: async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) => {
+        const { email, password } = req.body.user;
+
+        const userRepository = db.getRepository(User);
+
+        const searchedUser = await userRepository.findOneBy({ email });
+
+        if (!searchedUser) {
+            return next(new ValidationError("User not found"));
+        }
+
+        const isPasswordValid = await bcrypt.compare(
+            password, searchedUser.password);
+
+        if (!isPasswordValid) {
+            return next(new ValidationError("Password is invalid"));
+        }
+
+        res.status(200).send({
+            user: {
+                username: "Jacob",
+                email: "jake@jake.jake",
+                token: jwt.sign({ id: searchedUser.id }, env.JWT_SECRET),
                 bio: null,
                 image: null
             }

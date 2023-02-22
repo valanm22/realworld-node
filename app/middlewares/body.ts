@@ -23,5 +23,12 @@ export const schemas: Record<string, Schema> = {
             email: string().email().required(),
             password: string().required()
         })
-    })
+    }),
+
+    login: object({
+        user: object({
+            email: string().email().required(),
+            password: string().required()
+        })
+    }),
 }
