@@ -2,8 +2,6 @@ import api from "./api";
 import jwt from "jsonwebtoken";
 import env from "../app/global/env";
 
-let token = "";
-
 describe("users", () => {
     it("should register a new user", async () => {
         const response = await api.post("/api/users").send({
@@ -61,10 +59,10 @@ describe("users", () => {
             }
         });
 
-        token = response.body.user.token;
+        const token = response.body.user.token;
 
         expect(jwt.verify(token, env.JWT_SECRET)).toEqual({
-            id: expect.any(Number),
+            id: 1,
             iat: expect.any(Number)
         })
     });
@@ -81,6 +79,58 @@ describe("users", () => {
         expect(response.body).toEqual({
             error: "Validation Error",
             message: "Password is invalid"
+        });
+    });
+
+    it("should get the current user", async () => {
+        const mockedToken = jwt.sign({ id: 1 }, env.JWT_SECRET);
+
+        const response = await api.get("/api/user")
+            .set("Authorization", `Token ${mockedToken}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            user: {
+                username: "Jacob",
+                email: "jake@jake.jake",
+                token: mockedToken, 
+                bio: null,
+                image: null
+            }
+        });
+    });
+
+    it("should not get the current user without a token", async () => {
+        const response = await api.get("/api/user");
+
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({
+            error: "Unauthorized Error",
+            message: "No authorization token was found"
+        });
+    });
+
+    it("should not accept an invalid token format", async () => {
+        const response = await api.get("/api/user")
+            .set("Authorization", "Token invalid_format");
+        
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({
+            error: "Unauthorized Error",
+            message: "Invalid token format"
+        });
+    });
+
+    it("should not accept an invalid token payload", async () => {
+        const mockedToken = jwt.sign({ invalid: "payload" }, env.JWT_SECRET);
+
+        const response = await api.get("/api/user")
+            .set("Authorization", `Token ${mockedToken}`);
+
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual({
+            error: "Unauthorized Error",
+            message: "Token payload is invalid"
         });
     });
 });

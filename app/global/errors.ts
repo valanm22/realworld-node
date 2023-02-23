@@ -36,7 +36,12 @@ export class UnauthorizedError extends MiddlewareError {
 
     public name: string = "Unauthorized Error";
 
-    public message: string = "Authentication required to access this resource";
+    public message: string;
+
+    constructor(message: string) {
+        super();
+        this.message = message;
+    }
 }
 
 export class ForbiddenError extends MiddlewareError {

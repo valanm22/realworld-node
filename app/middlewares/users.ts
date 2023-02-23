@@ -64,11 +64,28 @@ export default {
 
         res.status(200).send({
             user: {
-                username: "Jacob",
-                email: "jake@jake.jake",
+                username: searchedUser.username,
+                email: searchedUser.email,
                 token: jwt.sign({ id: searchedUser.id }, env.JWT_SECRET),
-                bio: null,
-                image: null
+                bio: searchedUser.bio,
+                image: searchedUser.image 
+            }
+        });
+    },
+
+    current: async (
+        req: Request,
+        res: Response
+    ) => {
+        const user: User = res.locals.user;
+
+        res.status(200).json({
+            user: {
+                username: user.username,
+                email: user.email,
+                token: jwt.sign({ id: user.id }, env.JWT_SECRET),
+                bio: user.bio,
+                image: user.image 
             }
         });
     }
