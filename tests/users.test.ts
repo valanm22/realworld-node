@@ -133,4 +133,55 @@ describe("users", () => {
             message: "Token payload is invalid"
         });
     });
+
+    it("should update all user fields", async () => {
+        const mockedToken = jwt.sign({ id: 1 }, env.JWT_SECRET);
+
+        const response = await api.put("/api/user")
+            .set("Authorization", `Token ${mockedToken}`)
+            .send({
+                user: {
+                    email: "jacob@jacob.jacob",
+                    username: "Jake",
+                    password: "jacobjacob",
+                    bio: "I work at statefarm",
+                    image: "Some image URL"
+                }
+            });
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            user: {
+                email: "jacob@jacob.jacob",
+                username: "Jake",
+                token: mockedToken,
+                bio: "I work at statefarm",
+                image: "Some image URL"
+            }
+        });
+    });
+
+    it("should update only the provided fields", async () => {
+        const mockedToken = jwt.sign({ id: 1 }, env.JWT_SECRET);
+
+        const response = await api.put("/api/user")
+            .set("Authorization", `Token ${mockedToken}`)
+            .send({
+                user: {
+                    email: "jake@jake.jake",
+                    username: "Jacob"
+                }
+            });
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            user: {
+                email: "jake@jake.jake",
+                username: "Jacob",
+                token: mockedToken,
+                bio: "I work at statefarm",
+                image: "Some image URL"
+            }
+        });
+    });
 });

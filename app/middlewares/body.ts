@@ -31,4 +31,14 @@ export const schemas: Record<string, Schema> = {
             password: string().required()
         })
     }),
+
+    update: object({
+        user: object({
+            email: string().email(),
+            username: string(),
+            password: string(),
+            image: string(),
+            bio: string()
+        })
+    })
 }

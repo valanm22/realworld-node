@@ -88,5 +88,43 @@ export default {
                 image: user.image 
             }
         });
+    },
+
+    update: async (
+        req: Request,
+        res: Response
+    ) => {
+        const user: User = res.locals.user;
+
+        const { username, email, password, bio, image } = req.body.user;
+
+        if (username) {
+            user.username = username;
+        }
+        if (email) {
+            user.email = email;
+        }
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
+        if (bio) {
+            user.bio = bio;
+        }
+        if (image) {
+            user.image = image;
+        }
+
+        const userRepository = db.getRepository(User);
+        await userRepository.save(user);
+
+        res.status(200).json({
+            user: {
+                username: user.username,
+                email: user.email,
+                token: jwt.sign({ id: user.id }, env.JWT_SECRET),
+                bio: user.bio,
+                image: user.image 
+            }
+        });    
     }
 };
